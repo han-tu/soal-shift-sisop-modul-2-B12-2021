@@ -91,7 +91,7 @@ if(i==2)
 	}
 sleep(5);
 }
-if(day==9 && month==4 && hours==16 && minutes==22 && seconds==35){
+if(day==9 && month==4 && hours==16 && minutes==22 && seconds==31){
 int status;
 int child_id;
 int sec,third,forth;
@@ -100,20 +100,70 @@ for(int i=0;i<3;i++){
   if (child_id == 0){
 if(i==0)
 	{
-	execlp("mv","mv","MUSIK","Musyik",NULL);
+	execlp("mkdir","mkdir","Musyik",NULL);
 	}
 if(i==1)
 	{
-	execlp("mv","mv","FILM","Fylm",NULL);
+	execlp("mkdir","mkdir","Fylm",NULL);
 	}
 if(i==2)
 	{   	 
-	execlp("mv","mv","FOTO","Pyoto",NULL);
+	execlp("mkdir","mkdir","Pyoto",NULL);
 	}   	 
         	}
    	 
 	}
+	sleep(5);
 }
+if(day==9 && month==4 && hours==16 && minutes==22 && seconds==37){
+int status;
+int child_id;
+int sec,third,forth;
+for(int i=0;i<3;i++){
+  child_id = fork();
+  if (child_id == 0){
+if(i==0)
+	{
+	execlp("cp","cp","-a","MUSIK/.","Musyik/",NULL);
+	}
+if(i==1)
+	{
+	execlp("cp","cp","-a","FILM/.","Fylm/",NULL);
+	}
+if(i==2)
+	{   	 
+	execlp("cp","cp","-a","FOTO/.","Pyoto/",NULL);
+	}   	 
+        	}
+   	 
+	}
+	sleep(5);
+}
+if(day==9 && month==4 && hours==16 && minutes==22 && seconds==46){
+int status;
+int child_id;
+int sec,third,forth;
+for(int i=0;i<3;i++){
+  child_id = fork();
+  if (child_id == 0){
+if(i==0)
+	{
+	execlp("rm","rm","-r","MUSIK",NULL);
+	}
+if(i==1)
+	{
+	execlp("rm","rm","-r","FILM",NULL);
+	}
+if(i==2)
+	{   	 
+	execlp("rm","rm","-r","FOTO",NULL);
+	}   	 
+        	}
+   	 
+	}
+	sleep(5);
+}
+
 
 if(day==9&&month==4&&hours==22&&minutes==22){
 	int a;
