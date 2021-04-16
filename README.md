@@ -1,6 +1,132 @@
 # Laporan Penjelasan dan Penyelesaian Soal
 
 ## Soal 1
+### e. Membuat Progam yang berjalan secara otomatis
+Membuat suatu proses daemon yang dapat mengecek waktu
+```c
+  while (1) {
+	int hours, minutes, seconds, day, month, year;
+	time_t now;
+	time(&now);
+	struct tm *local = localtime(&now);
+	hours = local->tm_hour;
+	minutes = local->tm_min;
+	day = local->tm_mday;
+	month = local->tm_mon + 1;
+	seconds=local->tm_sec;
+```
+Variabel hours, minutes, days, months, seconds menyimpan waktu sekarang dan bisa digunakan untuk mengetahui kapan program harus berjalan. Proses daemon akan mengecek setiap detik.<br> <br>
+### b. Mendownload file dari google drive
+```c
+ if(day==9&&month==4&&hours==16&&minutes==22&&seconds<20){
+	int child_id;
+	for(int i=0;i<3;i++){
+  	child_id = fork();
+  	if (child_id == 0){
+	if(i==0)
+	{
+	char link[80]={"https://drive.google.com/uc?id=1ZG8nRBRPquhYXq_sISdsVcXx5VdEgi-J&export=download"};
+	execlp("wget","wget","--no-check-certificate",link,"-q","-O","Musik_for_Stevany.zip", NULL );
+	}
+if(i==1)
+	{
+	char link[80]={"https://drive.google.com/uc?id=1ktjGgDkL0nNpY-vT7rT7O6ZI47Ke9xcp&export=download"};
+	execlp("wget","wget","--no-check-certificate",link,"-q","-O","Film_for_Stevany.zip", NULL );
+	}
+if(i==2)
+	{   	 
+	char link[80]={"https://drive.google.com/uc?id=1FsrAzb9B5ixooGUs0dGiBr-rC7TS9wTD&export=download"};
+	execlp("wget","wget","--no-check-certificate",link,"-q","-O","Foto_for_Stevany.zip",NULL);
+	}   	 
+	}
+	}
+	sleep(21);
+}
+```
+Ketika waktu sekarang adalah Jum 09 Apr 16:22:00, program akan mendownload file-file zip dari google drive. Program lalu diberi jeda 20 detik agar memastikan download telah selesai sebelum lanjut ke perintah selanjutnya.Menggunakan ```fork()``` yang berada di dalam ```for``` loop. <br><br>
+### c. Mengextract isi dari zip
+```c
+if(day==9 && month==4 && hours==16 && minutes==22 && seconds==25){
+int child_id;
+for(int i=0;i<3;i++){
+  child_id = fork();
+  if (child_id == 0){
+if(i==0)
+	execlp("unzip","unzip","Foto_for_Stevany.zip",NULL);
+if(i==1)
+	execlp("unzip","unzip","Film_for_Stevany.zip",NULL);
+if(i==2)	 
+	execlp("unzip","unzip","Musik_for_Stevany.zip",NULL);       	 
+    	}
+	}
+sleep(5);
+}
+```
+Pada detik ke 25, file-file yang telah didownload akan di unzip. Akan terdapat folder-folder MUSIK, FOTO, dan FILM.<br><br>
+### a. Membuat folder Musyik, Fylm, dan Pyoto
+```c
+if(day==9 && month==4 && hours==16 && minutes==22 && seconds==31){
+int child_id;
+for(int i=0;i<3;i++){
+  child_id = fork();
+  if (child_id == 0){
+if(i==0)
+	execlp("mkdir","mkdir","Musyik",NULL);
+if(i==1)
+	execlp("mkdir","mkdir","Fylm",NULL);
+if(i==2)   	 
+	execlp("mkdir","mkdir","Pyoto",NULL);
+        	}
+	}
+	sleep(3);
+}
+```
+Membuat folder-folder Musyik,Fylm,Pyoto yang nantinya untuk menyimpan isi dari MUSIK,FILM, dan FOTO.<br><br>
+### d. Memindahkan ke folder yang telah dibuat
+```c
+if(day==9 && month==4 && hours==16 && minutes==22 && seconds==35){
+int child_id;
+for(int i=0;i<3;i++){
+  child_id = fork();
+  if (child_id == 0){
+if(i==0)
+	execlp("cp","cp","-a","MUSIK/.","Musyik/",NULL);
+if(i==1)
+	execlp("cp","cp","-a","FILM/.","Fylm/",NULL);
+if(i==2)
+	execlp("cp","cp","-a","FOTO/.","Pyoto/",NULL);	 
+        	}
+	}
+	sleep(3);
+}
+if(day==9 && month==4 && hours==16 && minutes==22 && seconds==39){
+int child_id;
+for(int i=0;i<3;i++){
+  child_id = fork();
+  if (child_id == 0){
+if(i==0)
+	execlp("rm","rm","-r","MUSIK",NULL);
+if(i==1)
+	execlp("rm","rm","-r","FILM",NULL);
+if(i==2)   	 
+	execlp("rm","rm","-r","FOTO",NULL);   	 
+        	}
+	}
+	sleep(3);
+}
+```
+Mengcopy isi dari MUSIK, FILM, dan FOTO, ke Musyik, Fylm, dan Pyoto. Setelah itu folder MUSIK, FILM, dan FOTO dihapus.<br><br>
+### f. Semua folder di zip pada jam 22:22:00
+```c
+if(day==9&&month==4&&hours==22&&minutes==22){
+    	execlp("zip","zip","-rm","Lopyu_Stevany.zip","Musyik","Pyoto","Fylm",NULL);  
+	}
+}
+```
+Ketika waktu sekarang adalah Jum 09 Apr 22:22:00, Folder Musyik, Pyoto, dan Fylm akan di zip ke Lopyu_Stevany.zip. ```-rm``` akan menghapus folder-folder tersebut sehingga yang tersisa hanya file zipnya. Pada bagian ini tidak dilakukan ```fork()``` sehingga ketika berjalan juga akan memberhentikan proses daemon.<br><br>
+Beberapa kendala yang didapat saat membuat program ini adalah :
+1. Kesalahan penempatan ```fork()``` dalam ```while``` loop sehingga program melakukan ```fork()``` terus menerus.
+2. Terlalu banyak melalukan wget sehingga google drive sering mengembalikan 403 Forbidden.
 
 ## Soal 2
 
