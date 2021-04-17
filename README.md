@@ -1,7 +1,7 @@
 # Laporan Penjelasan dan Penyelesaian Soal
 
 ## Soal 1
-### e. Membuat Progam yang berjalan secara otomatis
+### e. Membuat Program yang berjalan secara otomatis
 Membuat suatu proses daemon yang dapat mengecek waktu
 ```c
   while (1) {
@@ -15,7 +15,7 @@ Membuat suatu proses daemon yang dapat mengecek waktu
 	month = local->tm_mon + 1;
 	seconds=local->tm_sec;
 ```
-Variabel hours, minutes, days, months, seconds menyimpan waktu sekarang dan bisa digunakan untuk mengetahui kapan program harus berjalan. Proses daemon akan mengecek setiap detik.<br> <br>
+Variabel hours, minutes, days, months, dan seconds menyimpan waktu sekarang dan bisa digunakan untuk mengetahui kapan program harus berjalan. Proses daemon akan mengecek setiap detik.<br> <br>
 ### b. Mendownload file dari google drive
 ```c
  if(day==9&&month==4&&hours==16&&minutes==22&&seconds<20){
@@ -81,7 +81,7 @@ if(i==2)
 	sleep(3);
 }
 ```
-Membuat folder-folder Musyik,Fylm,Pyoto yang nantinya untuk menyimpan isi dari MUSIK,FILM, dan FOTO.<br><br>
+Membuat folder-folder Musyik, Fylm, Pyoto yang nantinya untuk menyimpan isi dari MUSIK, FILM, dan FOTO.<br><br>
 ### d. Memindahkan ke folder yang telah dibuat
 ```c
 if(day==9 && month==4 && hours==16 && minutes==22 && seconds==35){
