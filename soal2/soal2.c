@@ -11,27 +11,26 @@
 #include <dirent.h>
 
 //fungsi buang .jpg
-char* cut_four (char* s)
+char* cut_dot_jpg (char* str)
 {
-  int n;
-  int i;
-  char* new;
+  int leng;
+  char* new_str;
   
-  for (i = 0; s[i] != '\0'; i++);
-  // lenght of the new string
-  n = i - 4 + 1;
+  int i;
+  for (i = 0; str[i] != '\0'; i++);
+  
+  leng = i - 3;
 
-  if (n < 1) return NULL;
+  if (leng < 1) 
+    return NULL;
 
-  new = (char*) malloc (n * sizeof(char));
+  new_str = (char*) malloc (leng * sizeof(char));
 
-  for (i = 0; i < n - 1; i++)
-  {
-    new[i] = s[i];
+  for (i = 0; i < leng - 1; i++){
+    new_str[i] = str[i];
   }
-  new[i] = '\0';
-
-  return new;  
+  new_str[i] = '\0';
+  return new_str;  
 }
 
 int main()
@@ -80,7 +79,7 @@ int main()
       }
       
       //motong .jpg
-      char* cutted = cut_four(ep->d_name);
+      char* cutted = cut_dot_jpg(ep->d_name);
       char* tok;
 
       //ngepisahin yang hewannya banyak
