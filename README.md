@@ -130,6 +130,190 @@ Beberapa kendala yang didapat saat membuat program ini adalah :
 
 ## Soal 2
 
+### a. Mengextract zip, membedakan file dan folder, dan menghapus folder
+
+Mengextract zip menggunakan ``unzip``
+```
+  if (fork() == 0)
+  {
+    char *argv[] = {"unzip", "-q", "/home/zea/modul2/pets.zip", "-d", "/home/zea/modul2/petshop/"};
+    execv("/bin/unzip", argv);
+  }
+
+  while((wait(NULL)) > 0);
+```
+-q agar tidak memberikan output informasi yang sedang dikerjakan program\
+/home/zea/modul2/pets.zip adalah path yang akan diextract\
+-d /home/zea/modul2/petshop/ path tujuan hasil mengextract zip
+
+Membedakan file dan folder dan menghapus folder menggunakan library ``dirent.h``
+```
+  DIR *dp;
+  struct dirent *ep;
+  char path[100] = {"/home/zea/modul2/petshop/"};
+
+  dp = opendir(path);
+  if (dp != NULL)
+  {
+    while ((ep = readdir (dp)))
+    {
+      if (strcmp(ep->d_name, ".") == 0 || strcmp(ep->d_name, "..") == 0)
+        continue;
+
+      if (fork() == 0) continue;
+          
+      if (ep->d_type & DT_DIR)
+      {
+        char t[50];
+        strcpy(t, path);
+        strcat(t, ep->d_name);
+        
+        if (fork() == 0)
+        {
+          char *argv[] = {"rm", "-rf", t, NULL};
+          execv("/bin/rm", argv);
+        }
+                
+        while((wait(NULL)) > 0);
+        exit(EXIT_SUCCESS);
+      }
+```
+Jika file adalah folder ``if (ep->d_type & DT_DIR)`` maka akan diremove menggunakan ``-rm``
+```
+        if (fork() == 0)
+        {
+          char *argv[] = {"rm", "-rf", t, NULL};
+          execv("/bin/rm", argv);
+        }
+                
+        while((wait(NULL)) > 0);
+        exit(EXIT_SUCCESS);
+      }
+```
+
+### b. Membuat folder untuk setiap jenis peliharaan
+
+Pertama tama kita memotong .jpg dari nama file
+```
+char* cut_dot_jpg (char* str)
+{
+  int leng;
+  char* new_str;
+  
+  int i;
+  for (i = 0; str[i] != '\0'; i++);
+  
+  leng = i - 3;
+
+  if (leng < 1) 
+    return NULL;
+
+  new_str = (char*) malloc (leng * sizeof(char));
+
+  for (i = 0; i < leng - 1; i++){
+    new_str[i] = str[i];
+  }
+  new_str[i] = '\0';
+  return new_str;  
+}
+
+      char* cutted = cut_four(ep->d_name);
+      char* tok;
+```
+Lalu memisahkan atribut hewan yang dipisahkan dengan ``_`` dan ``;``
+```
+      while (tok = strtok_r(cutted, "_", &cutted))
+      {
+        char* tok2;
+        int j = 0;
+        char cat[20], name[20], umur[10];
+        char* temp = tok;
+                
+        while (tok2 = strtok_r(temp, ";", &temp))
+        {
+```
+Membuat folder sesuai kategori hewan dengan ``mkdir``
+```
+          if (j == 0)
+          {
+            if (fork() == 0)
+            {
+              char a[80]; strcpy(a, path); strcat(a, tok2);
+              char* argmk[] = {"mkdir", "-p", a, NULL};
+              execv("/bin/mkdir", argmk);
+            }
+            
+            while((wait(NULL)) > 0);
+            strcpy(cat, tok2);
+          }
+```
+Sisa atribut disimpan di array yang sesuai
+```
+          if (j == 1)
+          {
+            strcpy(name, tok2);
+          }
+                    
+          
+          if (j == 2)
+          {
+            strcpy(umur, tok2);
+          }
+          
+          j++;
+        }
+```
+
+### c. Memindahkan foto ke folder sesuai kategori dan rename
+
+Memindah dan merename file menggunakan ``cp``
+```
+        if (fork() == 0)
+        {
+          char t[80]; strcpy(t, path); strcat(t, cat); strcat(t, "/"); strcat(t, name); strcat(t, ".jpg");
+          char u[80]; strcpy(u, path); strcat(u, ep->d_name);
+          char* argcp[] = {"cp", u, t, NULL};
+          execv("/bin/cp", argcp);
+        }
+                
+        while((wait(NULL)) > 0); 
+```
+Menggunakan cp karena kalau satu file terdapat 2 hewan, maka file akan dicopy 2 kali ke kategori yang sesuai
+(soal d)\
+u adalah source path\
+t adalah destination path sekaligus memberi nama_hewan.jpg dibelakangnya
+
+### e. File keterangan.txt
+
+keterangan.txt berisi nama dan umur semua peliharaan di satu folder
+```
+        char p[80] = "nama : ";
+        strcat(p, name); strcat(p, "\numur  : "); strcat(p, umur); strcat(p, " tahun\n\n");      
+        char y[80]; strcpy(y, path); strcat(y, cat); strcat(y, "/keterangan.txt");
+        FILE* src = fopen(y, "a");
+        fputs(p, src);
+        fclose(src);
+      } 
+```
+p adalah format dari keterangan.txt\
+y adalah path dari keterangan
+
+Setelah itu, file akan diremove menggunakan ``rm``
+```
+      char b[50]; strcpy(b, path); strcat(b, ep->d_name);
+      char* argrm[] = {"rm", b, NULL};
+      execv("/bin/rm", argrm);
+    }
+
+    (void) closedir (dp);
+  }
+  
+  else perror ("Couldn't open the directory");
+
+  return 0;
+}
+```
+
 ## Soal 3
 
 ### a. Membuat direktori dengan format nama sesuai timestamp [YYYY-mm-dd_HH:ii:ss] tiap 40 detik
