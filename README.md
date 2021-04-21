@@ -313,6 +313,20 @@ Setelah itu, file akan diremove menggunakan ``rm``
   return 0;
 }
 ```
+Maka isi dari folder petshop akan tampak seperti berikut:
+![petshop](https://i.imgur.com/dS51fv3.png)
+
+Sebagai contoh, isi dari folder cat adalah:
+![foldercat](https://i.imgur.com/K8daTD8.png)
+
+Keterangan.txt di folder cat:
+![ket](https://i.imgur.com/7ypDPhL.png)
+
+Kendala yang ditemukan pada soal ini:
+1. Membuat program dapat membedakan file dan folder
+2. Membuat folder tanpa kita periksa satu satu
+3. Lupa melakukan fork sebelum exec
+4. Mengambil atribut dari hewan
 
 ## Soal 3
 
