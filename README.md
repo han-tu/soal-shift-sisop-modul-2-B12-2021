@@ -123,7 +123,17 @@ if(day==9&&month==4&&hours==22&&minutes==22){
 	}
 }
 ```
+
 Ketika waktu sekarang adalah Jum 09 Apr 22:22:00, Folder Musyik, Pyoto, dan Fylm akan di zip ke Lopyu_Stevany.zip. ```-rm``` akan menghapus folder-folder tersebut sehingga yang tersisa hanya file zipnya. Pada bagian ini tidak dilakukan ```fork()``` sehingga ketika berjalan juga akan memberhentikan proses daemon.<br><br>
+isi folder setelah 16:22:00
+![](https://i.imgur.com/BqQrqYu.png)
+
+isi folder setelah 22:22:00
+![](https://i.imgur.com/dPzaq1l.png)
+
+isi dari ``lopyu_stevany.zip``
+![ket](https://i.imgur.com/o2GJly5.png)
+
 Beberapa kendala yang didapat saat membuat program ini adalah :
 1. Kesalahan penempatan ```fork()``` dalam ```while``` loop sehingga program melakukan ```fork()``` terus menerus.
 2. Terlalu banyak melalukan wget sehingga google drive sering mengembalikan 403 Forbidden.
