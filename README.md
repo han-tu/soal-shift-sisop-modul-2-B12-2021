@@ -482,3 +482,16 @@ Beberapa kendala yang didapat saat membuat program ini adalah :
 1. Terjadi pembuatan process yang terlalu banyak karena lupa menghentikan fork
 2. Kesalahan - kesalahan syntax fungsi
 3. Menemukan ide agar proses dapat berjalan secara paralel (bersama - sama) tanpa menunggu proses yang lain selesai
+
+Berikut isi dari hasil zip :
+![hasil](https://i.imgur.com/e90XDrU.png)
+
+Hasil run killer.sh saat argumen -z :
+![-z](https://i.imgur.com/sEqylxx.png)
+
+Hasil run killer.sh saat argumen -x :
+awal :
+![-x awal](https://i.imgur.com/7draHRj.png)
+
+akhir :
+![-x akhir](https://i.imgur.com/vHc86Ow.png)
